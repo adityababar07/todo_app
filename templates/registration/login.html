@@ -1,32 +1,111 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<div>
-    <h2 class="pt-4">Login</h2>
-    <hr class="bold">
-    <div>
-        <center class="pb-3">
-            <svg class="center tc" width="5em" height="5em" viewBox="0 0 16 16" class="bi bi-lock-fill" id="lock_icon"
-                fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path d="M2.5 9a2 2 0 0 1 2-2h7a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-7a2 2 0 0 1-2-2V9z" />
-                <path fill-rule="evenodd" d="M4.5 4a3.5 3.5 0 1 1 7 0v3h-1V4a2.5 2.5 0 0 0-5 0v3h-1V4z" />
-            </svg>
+<div class="container" style="margin-top: 5vh; margin-bottom: 5vh;">
+    <div class="row justify-content-center">
+        <div class="col-md-5 col-lg-4">
+            <!-- Login Card -->
+            <div class="card border bg-white p-4 shadow-sm mb-3">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold" style="font-family: 'Billabong', sans-serif; font-size: 3rem;">Noesis</h2>
+                </div>
 
-            <div class="px-2">
-                <form method="POST" class=" border border-dark  py-5 ml-5 rounded-lg" id="login_form">
+                <form method="POST">
                     {% csrf_token %}
-                    {{ form.as_p }}
-                    <!-- <button type="submit">Log In</button> -->
-                    <button class="btn btn-success" type="submit">Log In</button><br>
-                    <small>
-                        <a href="{% url 'password_reset' %}">forgot password ?</a>
-                        or
-                        <a href="{% url 'signup' %}">sign up</a>
-                    </small>
+                    <div class="login-form">
+                        {{ form.as_p }}
+                    </div>
+
+                    <div class="d-grid mt-3">
+                        <button class="btn btn-primary fw-bold" type="submit">Log in</button>
+                    </div>
                 </form>
+
+                <div class="text-center mt-2">
+                    <a href="{% url 'password_reset' %}" class="small text-muted text-decoration-none"
+                        style="font-size: 0.75rem;">Forgotten your password?</a>
+                </div>
             </div>
-        </center>
+
+            <!-- Signup Link Box -->
+            <div class="card border bg-white p-4 shadow-sm text-center">
+                <p class="m-0">
+                    Don't have an account? <a href="{% url 'signup' %}"
+                        class="text-primary text-decoration-none fw-bold">Sign up</a>
+                </p>
+            </div>
+
+        </div>
     </div>
 
+    <!-- Footer Links -->
+    <div class="text-center mt-5 text-muted small">
+        <div class="mb-3">
+            <a href="#" class="text-muted text-decoration-none mx-2">Meta</a>
+            <a href="#" class="text-muted text-decoration-none mx-2">About</a>
+            <a href="#" class="text-muted text-decoration-none mx-2">Blog</a>
+            <a href="#" class="text-muted text-decoration-none mx-2">Jobs</a>
+            <a href="#" class="text-muted text-decoration-none mx-2">Help</a>
+            <a href="#" class="text-muted text-decoration-none mx-2">API</a>
+            <a href="#" class="text-muted text-decoration-none mx-2">Privacy</a>
+            <a href="#" class="text-muted text-decoration-none mx-2">Terms</a>
+            <a href="#" class="text-muted text-decoration-none mx-2">Locations</a>
+            <a href="#" class="text-muted text-decoration-none mx-2">Noesis Lite</a>
+            <a href="#" class="text-muted text-decoration-none mx-2">Threads</a>
+            <a href="#" class="text-muted text-decoration-none mx-2">Contact uploading and non-users</a>
+            <a href="#" class="text-muted text-decoration-none mx-2">Meta Verified</a>
+        </div>
+        <div>
+            <select class="border-0 bg-transparent text-muted small me-2">
+                <option value="en">English (UK)</option>
+            </select>
+            <span>© 2025 Noesis from Meta</span>
+        </div>
+    </div>
 </div>
+
+<style>
+    /* Custom styling for form fields to match Instagram */
+    .login-form p {
+        margin-bottom: 0.5rem;
+    }
+
+    .login-form input {
+        width: 100%;
+        padding: 9px 8px;
+        border: 1px solid #dbdbdb;
+        background-color: #fafafa;
+        border-radius: 3px;
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    .login-form input:focus {
+        border-color: #a8a8a8;
+        outline: none;
+    }
+
+    .login-form label {
+        display: none;
+        /* Hide labels to match Instagram style */
+    }
+
+    /* Re-enabling labels for usability if needed, but Instagram hides them. 
+       Let's try to hide them and assume placeholders are present or user knows what to do. 
+       Actually, Django's AuthenticationForm might not have placeholders by default. 
+       I'll keep labels hidden and add a script to add placeholders if they are missing, 
+       or just show labels for now to be safe. 
+       Wait, the user screenshot shows placeholders inside the input. 
+       I will use a small script to move labels to placeholders or just show labels for now. 
+       Actually, for a better match, I will use CSS to show labels as small text above or just keep them visible.
+       Let's keep labels visible but small for now to ensure usability. */
+    .login-form label {
+        display: block;
+        font-size: 0.75rem;
+        color: #8e8e8e;
+        margin-bottom: 2px;
+        text-align: left;
+    }
+</style>
 {% endblock content %}

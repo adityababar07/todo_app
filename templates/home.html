@@ -145,7 +145,14 @@
                 </div>
                 <form method="POST" action="{% url 'login' %}">
                     {% csrf_token %}
-                    {{ form.as_p }}
+                    <div class="mb-2">
+                        <input type="text" name="username" class="form-control bg-light"
+                            placeholder="Phone number, username or email address" required id="id_username">
+                    </div>
+                    <div class="mb-2">
+                        <input type="password" name="password" class="form-control bg-light" placeholder="Password"
+                            required id="id_password">
+                    </div>
                     <div class="d-grid gap-2 mt-3">
                         <button class="btn btn-primary fw-bold" type="submit">Log In</button>
                     </div>

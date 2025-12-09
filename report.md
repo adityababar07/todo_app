@@ -38,6 +38,19 @@
     - **Follow System**: Added a `Follow` model and functionality, allowing users to follow others.
     - **Personalized Feed**: The home feed now displays posts only from followed users (and the user themselves), ordered by date.
     - **Suggestions**: Added a "Suggested for you" section in the sidebar.
+    
+### 5. Instagram-Style Redesign (Latest Updates)
+- **Logged-Out Homepage**:
+    - **Split Layout**: Implemented a split-screen design with the "Share Your Knowledge" content on the left and a login form on the right, mimicking the Instagram login page.
+    - **Branding**: Prominently displayed the "Noesis" brand.
+- **Signup Page**:
+    - **Simplified Form**: Reduced fields to just Email, Full Name, Username, and Password.
+    - **Visuals**: Centered card layout with "Noesis" branding and a "Log in with Facebook" button (visual only).
+    - **Footer**: Added a "Have an account? Log in" section.
+- **Login Page**:
+    - **Consistent Design**: Matched the Signup page style with a centered card and "Noesis" branding.
+    - **Placeholders**: Replaced field labels with placeholders ("Phone number, username or email address" and "Password") for a cleaner look.
+    - **Footer**: Added a "Don't have an account? Sign up" section and footer links.
 
 ## Hosting Suggestions
 

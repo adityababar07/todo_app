@@ -9,7 +9,28 @@
     <div class="list-inline-item">
         <form action="" method="POST">
             {% csrf_token %}
-            {{ form.as_p }}
+            <div class="mb-2"><input type="text" name="profile_image" value="{{ form.profile_image.value|default:'' }}"
+                    class="form-control" placeholder="Profile Image URL"></div>
+            <div class="mb-2"><input type="text" name="username" value="{{ form.username.value|default:'' }}"
+                    class="form-control" placeholder="Username"></div>
+            <div class="mb-2"><input type="text" name="name" value="{{ form.name.value|default:'' }}"
+                    class="form-control" placeholder="Full Name"></div>
+            <div class="mb-2"><input type="number" name="age" value="{{ form.age.value|default:'' }}"
+                    class="form-control" placeholder="Age"></div>
+            <div class="mb-2"><textarea name="bio" class="form-control" placeholder="Bio"
+                    rows="3">{{ form.bio.value|default:'' }}</textarea></div>
+            <div class="mb-2"><input type="email" name="email" value="{{ form.email.value|default:'' }}"
+                    class="form-control" placeholder="Email"></div>
+            <div class="mb-2"><input type="number" name="standard" value="{{ form.standard.value|default:'' }}"
+                    class="form-control" placeholder="Standard"></div>
+            <div class="mb-2"><input type="text" name="division" value="{{ form.division.value|default:'' }}"
+                    class="form-control" placeholder="Division"></div>
+            <div class="mb-2"><input type="text" name="house" value="{{ form.house.value|default:'' }}"
+                    class="form-control" placeholder="House"></div>
+            <div class="mb-2"><input type="text" name="stream" value="{{ form.stream.value|default:'' }}"
+                    class="form-control" placeholder="Stream"></div>
+            <div class="mb-2"><input type="text" name="school" value="{{ form.school.value|default:'' }}"
+                    class="form-control" placeholder="School"></div>
             <input type="submit" value="Update">
         </form>
     </div>

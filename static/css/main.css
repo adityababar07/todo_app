@@ -6,8 +6,10 @@
 
 body {
     font-family: 'Inter', sans-serif;
+    /* Use a vibrant background image for the theme - Removed per request */
+    /* background: url('https://images.unsplash.com/photo-1542273917363-3b1817f69a2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed; */
     background-color: #f8f9fa;
-    /* Light gray background */
+    /* Restored light gray background */
     min-height: 100vh;
     color: var(--text-color);
     display: flex;
@@ -20,60 +22,87 @@ body {
     width: 100%;
 }
 
+/* Glassmorphism Classes */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.glass-nav {
+    background: rgba(33, 37, 41, 0.85) !important;
+    /* Dark glass for navbar */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Update Navbar to use Glass effect - Removed to restore black navbar */
+.navbar {
+    z-index: 1050 !important;
+    /* background: transparent !important; Removed so bg-dark works in base.html */
+}
+
 .footer {
     flex-shrink: 0;
     width: 100%;
     margin-top: auto;
-    background-color: #343a40;
-    /* Dark footer */
+    background: rgba(33, 37, 41, 0.9);
+    /* Semi-transparent dark footer */
     color: white;
+    backdrop-filter: blur(5px);
 }
 
-#base_wallpaper {
-    display: none;
-}
-
-/* Navbar z-index fix */
-.navbar {
-    z-index: 1050 !important;
-}
-
-.alert {
-    margin-top: 0;
-    margin-bottom: 0;
-    z-index: 1020;
-    position: relative;
-    border-radius: 0;
-}
-
-/* Card Styles - Minimal */
+/* Card Styles - Glass Theme */
 .card {
-    background-color: #ffffff;
-    border: 1px solid rgba(0, 0, 0, .125);
-    border-radius: 0.25rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.85);
+    /* Slightly more opaque for readability */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
 }
 
 .card-header {
     background-color: rgba(0, 0, 0, .03);
-    border-bottom: 1px solid rgba(0, 0, 0, .125);
+    border-bottom: 1px solid rgba(0, 0, 0, .05);
+    border-radius: 15px 15px 0 0 !important;
 }
 
 .card-footer {
     background-color: rgba(0, 0, 0, .03);
-    border-top: 1px solid rgba(0, 0, 0, .125);
+    border-top: 1px solid rgba(0, 0, 0, .05);
+    border-radius: 0 0 15px 15px !important;
+}
+
+/* Sidebar Styles */
+.sidebar-sticky {
+    position: sticky;
+    top: 90px;
+    /* Offset for fixed navbar */
 }
 
 /* Links */
 a {
-    color: #007bff;
+    color: #4a90e2;
+    /* Match primary color */
     text-decoration: none;
+    transition: color 0.2s;
 }
 
 a:hover {
-    color: #0056b3;
-    text-decoration: underline;
+    color: #2c3e50;
+    text-decoration: none;
 }
 
 .text-muted {
@@ -82,25 +111,43 @@ a:hover {
 
 /* Badges */
 .badge-knowledge {
-    background-color: #28a745;
+    background-color: rgba(40, 167, 69, 0.9);
     color: white;
     padding: 5px 10px;
     border-radius: 10px;
     font-size: 0.8em;
+    box-shadow: 0 2px 4px rgba(40, 167, 69, 0.3);
 }
 
 .badge-idea {
-    background-color: #ffc107;
+    background-color: rgba(255, 193, 7, 0.9);
     color: black;
     padding: 5px 10px;
     border-radius: 10px;
     font-size: 0.8em;
+    box-shadow: 0 2px 4px rgba(255, 193, 7, 0.3);
 }
 
 .badge-question {
-    background-color: #17a2b8;
+    background-color: rgba(23, 162, 184, 0.9);
     color: white;
     padding: 5px 10px;
     border-radius: 10px;
     font-size: 0.8em;
+    box-shadow: 0 2px 4px rgba(23, 162, 184, 0.3);
+}
+
+/* Form inputs in Glass/Instagram style */
+input.form-control,
+textarea.form-control,
+select.form-control {
+    background-color: rgba(255, 255, 255, 0.9);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+input.form-control:focus,
+textarea.form-control:focus,
+select.form-control:focus {
+    background-color: #fff;
+    box-shadow: 0 0 0 0.25rem rgba(74, 144, 226, 0.25);
 }

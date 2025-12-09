@@ -11,18 +11,23 @@
                 <div class="card-body">
                     <form action="" method="POST">
                         {% csrf_token %}
-                        {% for field in form %}
                         <div class="mb-3">
-                            <!-- Label removed for Instagram style -->
-                            {{ field }}
-                            {% if field.help_text %}
-                            <small class="form-text text-muted">{{ field.help_text }}</small>
-                            {% endif %}
-                            {% for error in field.errors %}
-                            <div class="alert alert-danger mt-1">{{ error }}</div>
-                            {% endfor %}
+                            <input type="text" name="title" class="form-control" placeholder="Title" required
+                                id="id_title">
                         </div>
-                        {% endfor %}
+                        <div class="mb-3">
+                            <select name="category" class="form-control" id="id_category">
+                                <option value="" selected>---------</option>
+                                <option value="Knowledge">Knowledge</option>
+                                <option value="Idea">Idea</option>
+                                <option value="Question">Question</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <textarea name="body" cols="40" rows="5" class="form-control"
+                                placeholder="Write your idea, question, or knowledge here..." required
+                                id="id_body"></textarea>
+                        </div>
                         <div class="d-grid gap-2">
                             <input type="submit" value="Share Knowledge" class="btn btn-primary btn-lg w-100">
                         </div>

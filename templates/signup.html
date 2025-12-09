@@ -19,7 +19,26 @@
                     <!-- Manually rendering fields to add styling if needed, or just using as_p with custom CSS targeting -->
                     <!-- For now, using as_p but we might want to style the inputs to be full width and gray background -->
                     <div class="signup-form">
-                        {{ form.as_p }}
+                        <div class="mb-2">
+                            <input type="email" name="email" class="form-control" placeholder="Email" required
+                                id="id_email">
+                        </div>
+                        <div class="mb-2">
+                            <input type="text" name="name" class="form-control" placeholder="Full Name" required
+                                id="id_name">
+                        </div>
+                        <div class="mb-2">
+                            <input type="text" name="username" class="form-control" placeholder="Username" required
+                                id="id_username">
+                        </div>
+                        <div class="mb-2">
+                            <input type="password" name="password" class="form-control" placeholder="Password" required
+                                id="id_password">
+                        </div>
+                        <div class="mb-2">
+                            <input type="password" name="password_confirmation" class="form-control"
+                                placeholder="Confirm Password" required id="id_password_confirmation">
+                        </div>
                     </div>
 
                     <div class="text-center mt-3 mb-3">
@@ -72,18 +91,9 @@
         outline: none;
     }
 
+    /* Labels hidden for Instagram style */
     .signup-form label {
         display: none;
-        /* Hide labels to match Instagram style (relying on placeholders if possible, or just hiding labels makes it cleaner but less accessible. Instagram uses floating labels or placeholders. Django forms render labels. I'll hide them for now and hope placeholders are there or add them via JS/CSS if needed. Actually, Django UserCreationForm doesn't add placeholders by default. I should probably keep labels or add placeholders.) */
-    }
-
-    /* Re-enabling labels for usability since I didn't add placeholders in the form class */
-    .signup-form label {
-        display: block;
-        font-size: 0.75rem;
-        color: #8e8e8e;
-        margin-bottom: 2px;
-        text-align: left;
     }
 </style>
 {% endblock content %}

@@ -14,7 +14,14 @@
                 <form method="POST">
                     {% csrf_token %}
                     <div class="login-form">
-                        {{ form.as_p }}
+                        <div class="mb-2">
+                            <input type="text" name="username" class="form-control"
+                                placeholder="Phone number, username or email address" required id="id_username">
+                        </div>
+                        <div class="mb-2">
+                            <input type="password" name="password" class="form-control" placeholder="Password" required
+                                id="id_password">
+                        </div>
                     </div>
 
                     <div class="d-grid mt-3">
@@ -86,26 +93,9 @@
         outline: none;
     }
 
+    /* Labels hidden for Instagram style */
     .login-form label {
         display: none;
-        /* Hide labels to match Instagram style */
-    }
-
-    /* Re-enabling labels for usability if needed, but Instagram hides them. 
-       Let's try to hide them and assume placeholders are present or user knows what to do. 
-       Actually, Django's AuthenticationForm might not have placeholders by default. 
-       I'll keep labels hidden and add a script to add placeholders if they are missing, 
-       or just show labels for now to be safe. 
-       Wait, the user screenshot shows placeholders inside the input. 
-       I will use a small script to move labels to placeholders or just show labels for now. 
-       Actually, for a better match, I will use CSS to show labels as small text above or just keep them visible.
-       Let's keep labels visible but small for now to ensure usability. */
-    .login-form label {
-        display: block;
-        font-size: 0.75rem;
-        color: #8e8e8e;
-        margin-bottom: 2px;
-        text-align: left;
     }
 </style>
 {% endblock content %}

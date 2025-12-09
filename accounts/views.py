@@ -36,8 +36,7 @@ class ProfileView(LoginRequiredMixin, DetailView):
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):
     model = CustomUser
     template_name = 'profile_edit.html'
-    fields = ['profile_image', 'username', 'name', 'age', 'bio', 'email',
-              'standard', 'division', 'house', 'stream', 'school']
+    form_class = CustomUserChangeForm
     login_url = 'login'
 
 

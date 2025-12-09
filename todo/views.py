@@ -51,10 +51,12 @@ class StudyDetailView(LoginRequiredMixin, DetailView):
     login_url = 'login'
 
 
+from .forms import TodoForm
+
 class StudyCreateView(LoginRequiredMixin, CreateView):
     model = ToDo
     template_name = 'todo_new.html'
-    fields = ['title', 'category', 'body']
+    form_class = TodoForm
     login_url = 'login'
 
     def form_valid(self, form):
@@ -65,7 +67,7 @@ class StudyCreateView(LoginRequiredMixin, CreateView):
 class StudyUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = ToDo
     template_name = 'todo_edit.html'
-    fields = ['title', 'category', 'body']
+    form_class = TodoForm
     success_url = reverse_lazy('todo_list')
     login_url = 'login'
 

@@ -49,7 +49,7 @@
     - **Footer**: Added a "Have an account? Log in" section.
 - **Login Page**:
     - **Consistent Design**: Matched the Signup page style with a centered card and "Noesis" branding.
-    - **Placeholders**: Replaced field labels with placeholders ("Phone number, username or email address" and "Password") for a cleaner look.
+    - **Placeholders**: Replaced field labels with placeholders globally (Login, Signup, Create/Edit Post, Profile Edit) for a cleaner, consistent Instagram-style look.
     - **Footer**: Added a "Don't have an account? Sign up" section and footer links.
 
 ## Hosting Suggestions

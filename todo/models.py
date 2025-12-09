@@ -16,6 +16,12 @@ class ToDo(models.Model):
         get_user_model(),
         on_delete = models.CASCADE,
     )
+    CATEGORY_CHOICES = (
+        ('Knowledge', 'Knowledge'),
+        ('Idea', 'Idea'),
+        ('Question', 'Question'),
+    )
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='Knowledge')
     date = models.DateTimeField(auto_now_add=True)
     body = models.TextField()
     def __str__(self):

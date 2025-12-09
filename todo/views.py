@@ -13,8 +13,30 @@ from .models import ToDo, Comment
 
 
 class HomePageView(TemplateView):
-    model = ToDo
     template_name = 'home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            # Get users the current user follows
+            following_users = self.request.user.following.values_list('following', flat=True)
+            # Filter posts by followed users OR the current user
+            context['feed_posts'] = ToDo.objects.filter(
+                author__in=list(following_users) + [self.request.user.id]
+            ).order_by('-date')
+            
+            # Get suggestions (users not followed and not self)
+            from accounts.models import CustomUser
+            context['suggestions'] = CustomUser.objects.exclude(
+                id__in=list(following_users) + [self.request.user.id]
+            )[:5]
+            context['suggestions'] = CustomUser.objects.exclude(
+                id__in=list(following_users) + [self.request.user.id]
+            )[:5]
+        else:
+            from django.contrib.auth.forms import AuthenticationForm
+            context['form'] = AuthenticationForm()
+        return context
 
 
 class StudyListView(LoginRequiredMixin, ListView):
@@ -32,7 +54,7 @@ class StudyDetailView(LoginRequiredMixin, DetailView):
 class StudyCreateView(LoginRequiredMixin, CreateView):
     model = ToDo
     template_name = 'todo_new.html'
-    fields = ['title', 'body']
+    fields = ['title', 'category', 'body']
     login_url = 'login'
 
     def form_valid(self, form):
@@ -43,7 +65,7 @@ class StudyCreateView(LoginRequiredMixin, CreateView):
 class StudyUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = ToDo
     template_name = 'todo_edit.html'
-    fields = ['title', 'body']
+    fields = ['title', 'category', 'body']
     success_url = reverse_lazy('todo_list')
     login_url = 'login'
 

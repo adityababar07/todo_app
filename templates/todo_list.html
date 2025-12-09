@@ -2,34 +2,44 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="pt-4 px-2 bg-transparent">
-    {% for todo in object_list %}
-    {% if user.id == todo.author_id %}
-    <div class="card" id="post_list_card">
-        <div class='card-header '>
-            <span class="font-weight-bold">
-                <p><a href="{% url 'todo_detail' todo.pk %}">{{ todo.title }}</a></p>
-            </span>
-            <span class="text-muted">
-                <p>-by {{ todo.author }}| {{ todo.date }}</p>
-            </span>
-        </div>
-        <div class="card-body">
-            {{ todo.body }}
-            <p><a href="{% url 'todo_edit' todo.pk %}">Edit</a> | <a href="{% url 'todo_delete' todo.pk %}">Delete</a>
-            </p>
-        </div>
-        <div class="card-footer  text-muted">
-            {% for comment in todo.comments.all %}
-            <p>
-                <span class="font-weight-bold">{{ comment.author }} : {{ comment }}</span>
-            </p>
-            {% endfor %}            
-            
+<div class="container pt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h2 class="text-center mb-4 text-dark">Knowledge Feed</h2>
+            {% for todo in object_list %}
+            <div class="card mb-4">
+                <div class='card-header d-flex justify-content-between align-items-center bg-light'>
+                    <div>
+                        <span class="badge badge-{{ todo.category|lower }} me-2">{{ todo.category }}</span>
+                        <a href="{% url 'todo_detail' todo.pk %}" class="h5 text-dark text-decoration-none">{{ todo.title }}</a>
+                    </div>
+                    <small class="text-muted">{{ todo.date|date:"M d, Y" }}</small>
+                </div>
+                <div class="card-body">
+                    <p class="card-text text-dark">{{ todo.body|truncatewords:30 }}</p>
+                    <div class="d-flex justify-content-between align-items-center mt-3">
+                        <small class="text-muted">Posted by {{ todo.author }}</small>
+                        <div>
+                            {% if user.id == todo.author_id %}
+                            <a href="{% url 'todo_edit' todo.pk %}" class="btn btn-sm btn-outline-primary me-2"><i
+                                    class="fas fa-edit"></i> Edit</a>
+                            <a href="{% url 'todo_delete' todo.pk %}" class="btn btn-sm btn-outline-danger"><i
+                                    class="fas fa-trash"></i> Delete</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-muted bg-light">
+                    <i class="far fa-comments"></i> {{ todo.comments.count }} Comments
+                </div>
+            </div>
+            {% empty %}
+            <div class="text-center text-dark">
+                <p>No posts yet. Be the first to share your knowledge!</p>
+                <a href="{% url 'todo_new' %}" class="btn btn-primary">Share Idea</a>
+            </div>
+            {% endfor %}
         </div>
     </div>
-    <br />
-    {% endif%}
-    {% endfor %}
 </div>
 {% endblock content %}

@@ -8,6 +8,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- CSS only -->
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -15,7 +21,7 @@
     <link href="{% static 'css/main.css' %}" rel="stylesheet">
     <!-- favicon -->
     <link rel="icon" href="{% static 'pictures/favicon.png' %}">
-    <title>To DO app</title>
+    <title>Noesis</title>
 </head>
 
 <!-- content -->
@@ -23,24 +29,9 @@
 <body>
     <header class="header">
         <div class="fixed-top">
-            {% if request.path == "/" %}
-            {% if user.is_authenticated %}
-            <div class="alert alert-primary alert-dismissible fade show mb-0" role="alert" id="alert">
-                <strong>Hi {{ user.username.title }}!!</strong>
-                <button type=" button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            {% else %}
-            <div class="alert alert-warning alert-dismissible fade show mb-0" role="alert" id="alert">
-                <strong><a href="{% url 'login' %}"><u>Log In</u></a> to get into your page OR <a
-                        href="{% url 'signup' %}"><u>Sign Up</u></a> to get a page and to post your
-                    ideas!!!</strong>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-            {% endif %}
-            {% endif %}
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="{% url 'home' %}"><strong>To Do </strong></a>
+                    <a class="navbar-brand" href="{% url 'home' %}"><strong><i class="fas fa-brain"></i> Noesis</strong></a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -53,13 +44,12 @@
                                 <a class="nav-link" href="{% url 'home' %}">Home</a>
                             </li>
                             <li class="nav-item active">
-                                <a class="nav-link" href="{% url 'todo_list' %}">Do's</a>
+                                <a class="nav-link" href="{% url 'todo_list' %}">Explore</a>
                             </li>
                             {% if user.is_authenticated %}
                             <li class="nav-item active">
-                                <a href="{% url 'todo_new' %}" class="nav-link">+
-                                    New
-                                    work</a>
+                                <a href="{% url 'todo_new' %}" class="nav-link btn btn-outline-light btn-sm ms-2">+
+                                    Share Idea</a>
                             </li>
                             {% endif %}
                             <li class="nav-item active">
@@ -69,7 +59,8 @@
                             <li class="nav-item dropdown active">
                                 <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height=""
+                                        fill="white">
                                         <path fill-rule="evenodd"
                                             d="M12 2.5a5.5 5.5 0 00-3.096 10.047 9.005 9.005 0 00-5.9 8.18.75.75 0 001.5.045 7.5 7.5 0 0114.993 0 .75.75 0 101.499-.044 9.005 9.005 0 00-5.9-8.181A5.5 5.5 0 0012 2.5zM8 8a4 4 0 118 0 4 4 0 01-8 0z">
                                         </path>
@@ -77,14 +68,15 @@
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <li>
-                                        <a href="{% url 'profile' user.pk %}"
-                                            class="mr-3 border rounded-lg border-primary py-2 px-2 bg-light text-dark dropdown-item">
+                                        <a href="{% url 'profile' user.pk %}" class="dropdown-item">
                                             Profile</a>
                                     </li>
                                     <li>
-                                        <a href="{% url 'logout' %}"
-                                            class="border border-primary rounded-lg py-2 px-2 bg-light text-dark dropdown-item">Sign
-                                            Out</a>
+                                        <form method="post" action="{% url 'logout' %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="dropdown-item w-100 text-start">Sign
+                                                Out</button>
+                                        </form>
                                     </li>
                                 </ul>
                             </li>
@@ -92,7 +84,8 @@
                             <li class="nav-item dropdown active">
                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
                                     data-bs-toggle="dropdown" aria-expanded="false">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"
+                                        fill="white">
                                         <path fill-rule="evenodd"
                                             d="M12 2.5a5.5 5.5 0 00-3.096 10.047 9.005 9.005 0 00-5.9 8.18.75.75 0 001.5.045 7.5 7.5 0 0114.993 0 .75.75 0 101.499-.044 9.005 9.005 0 00-5.9-8.181A5.5 5.5 0 0012 2.5zM8 8a4 4 0 118 0 4 4 0 01-8 0z">
                                         </path>
@@ -110,23 +103,17 @@
                             </li>
                             {% endif %}
                         </ul>
-                        <!-- <form class="d-flex">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form> -->
                     </div>
                 </div>
             </nav>
         </div>
-
     </header>
-    <div>
-        <img src="https://source.unsplash.com/collection/385548/2560x2164" id="base_wallpaper">
-        <div id="content">
-            {% block content %}
-            {% endblock content %}
-        </div>
+
+    <div id="content">
+        {% block content %}
+        {% endblock content %}
     </div>
+
     <!-- JS, Popper.js, and jQuery -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"

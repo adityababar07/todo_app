@@ -4,21 +4,164 @@
 {% block title %}Home{% endblock title %}
 
 {% block content %}
-<div class="px-4" id="home_card">
-    <div class="jumbotron bg-transparent">
-        <h1 class="display-4">To Do app</h1>
-        <p class="lead">A website built with Django.</p>
-        <p class="lead">
-            <a class="btn btn-primary btn-lg" href="{% url 'todo_list' %}" role="button">View All To Do's</a>
-        </p>
+{% if user.is_authenticated %}
+<div class="container pt-4">
+    <div class="row justify-content-center">
+        <!-- Feed Column (Left/Center) -->
+        <div class="col-md-7 col-lg-6">
+            <!-- Posts Feed -->
+            {% for post in feed_posts %}
+            <div class="card mb-4 border bg-white">
+                <!-- Post Header -->
+                <div
+                    class="card-header bg-white border-bottom-0 py-3 d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center">
+                        {% if post.author.profile_image %}
+                        <img src="{{ post.author.profile_image }}" class="rounded-circle me-2" width="32" height="32"
+                            style="object-fit: cover;">
+                        {% else %}
+                        <img src="https://via.placeholder.com/32" class="rounded-circle me-2" width="32" height="32">
+                        {% endif %}
+                        <a href="{% url 'profile' post.author.pk %}"
+                            class="text-dark text-decoration-none fw-bold">{{post.author.username}}</a>
+                        <span class="text-muted mx-1">•</span>
+                        <small class="text-muted">{{ post.date|timesince }} ago</small>
+                    </div>
+                    <i class="fas fa-ellipsis-h text-muted"></i>
+                </div>
+
+                <!-- Post Content (Text as Image Placeholder) -->
+                <div class="bg-light d-flex align-items-center justify-content-center p-5 text-center"
+                    style="min-height: 300px;">
+                    <div>
+                        <span class="badge badge-{{ post.category|lower }} mb-3">{{ post.category }}</span>
+                        <h4 class="fw-bold mb-3">{{ post.title }}</h4>
+                        <p class="text-muted">{{ post.body|truncatewords:20 }}</p>
+                    </div>
+                </div>
+
+                <!-- Post Actions -->
+                <div class="card-body py-2">
+                    <div class="d-flex justify-content-between mb-2">
+                        <div class="d-flex gap-3">
+                            <i class="far fa-heart fa-lg"></i>
+                            <i class="far fa-comment fa-lg"></i>
+                            <i class="far fa-paper-plane fa-lg"></i>
+                        </div>
+                        <i class="far fa-bookmark fa-lg"></i>
+                    </div>
+                    <div class="fw-bold mb-1">0 likes</div>
+                    <div>
+                        <a href="{% url 'profile' post.author.pk %}"
+                            class="text-dark text-decoration-none fw-bold">{{post.author.username }}</a>
+                        <span class="">{{ post.body }}</span>
+                    </div>
+                    <a href="{% url 'todo_detail' post.pk %}" class="text-muted text-decoration-none small">View all {{
+                        post.comments.count }} comments</a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="text-center py-5">
+                <h3>Welcome to Noesis!</h3>
+                <p class="text-muted">Follow people to see their posts here.</p>
+                <a href="{% url 'todo_list' %}" class="btn btn-primary">Explore Community</a>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Sidebar (Right) -->
+        <div class="col-md-4 d-none d-md-block">
+            <div class="position-sticky" style="top: 100px;">
+                <!-- Current User -->
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <div class="d-flex align-items-center">
+                        {% if user.profile_image %}
+                        <img src="{{ user.profile_image }}" class="rounded-circle me-3" width="56" height="56"
+                            style="object-fit: cover;">
+                        {% else %}
+                        <img src="https://via.placeholder.com/56" class="rounded-circle me-3" width="56" height="56">
+                        {% endif %}
+                        <div>
+                            <div class="fw-bold">{{ user.username }}</div>
+                            <div class="text-muted small">{{ user.name }}</div>
+                        </div>
+                    </div>
+                    <a href="#" class="text-primary text-decoration-none small fw-bold">Switch</a>
+                </div>
+
+                <!-- Suggestions -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted fw-bold small">Suggested for you</span>
+                    <a href="{% url 'todo_list' %}" class="text-dark text-decoration-none small fw-bold">See All</a>
+                </div>
+
+                {% for suggestion in suggestions %}
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <div class="d-flex align-items-center">
+                        {% if suggestion.profile_image %}
+                        <img src="{{ suggestion.profile_image }}" class="rounded-circle me-2" width="32" height="32"
+                            style="object-fit: cover;">
+                        {% else %}
+                        <img src="https://via.placeholder.com/32" class="rounded-circle me-2" width="32" height="32">
+                        {% endif %}
+                        <div>
+                            <a href="{% url 'profile' suggestion.pk %}"
+                                class="text-dark text-decoration-none fw-bold small d-block">{{ suggestion.username
+                                }}</a>
+                            <small class="text-muted" style="font-size: 0.75rem;">New to Instagram</small>
+                        </div>
+                    </div>
+                    <a href="{% url 'follow_user' suggestion.pk %}"
+                        class="text-primary text-decoration-none small fw-bold">Follow</a>
+                </div>
+                {% endfor %}
+
+                <div class="mt-4 text-muted small" style="font-size: 0.75rem;">
+                    <p>© 2025 NOESIS FROM META</p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
-<footer class="footer py-3 bg-dark text-white" id="footer">
-    <div class="container ml-2">
-        <span class="text-muted">All copyrights reserved @adityababar07<br>
-            contact @ adityababar03.web.app
-        </span>
-    </div>
-</footer>
+{% else %}
+<!-- Split Layout for Logged Out Users -->
+<div class="container" style="margin-top: 10vh;">
+    <div class="row align-items-center">
+        <!-- Left Column: Old Homepage Content -->
+        <div class="col-md-6 text-center text-md-start mb-5 mb-md-0">
+            <h1 class="display-3 fw-bold mb-4 text-dark">Share Your Knowledge</h1>
+            <p class="lead mb-5 text-muted">A community for students to share ideas, ask questions, and learn together.
+            </p>
+            <div class="d-flex justify-content-center justify-content-md-start gap-3">
+                <a href="{% url 'signup' %}" class="btn btn-lg btn-primary fw-bold px-5 py-3">Join Community</a>
+            </div>
+        </div>
 
+        <!-- Right Column: Login Form -->
+        <div class="col-md-6 col-lg-5 offset-lg-1">
+            <div class="card border bg-white p-4 shadow-sm">
+                <div class="text-center mb-4">
+                    <h2 class="fw-bold" style="font-family: 'Billabong', sans-serif; font-size: 2.5rem;">Noesis</h2>
+                </div>
+                <form method="POST" action="{% url 'login' %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="d-grid gap-2 mt-3">
+                        <button class="btn btn-primary fw-bold" type="submit">Log In</button>
+                    </div>
+                </form>
+                <div class="text-center mt-4">
+                    <p class="small text-muted">
+                        Don't have an account? <a href="{% url 'signup' %}"
+                            class="fw-bold text-primary text-decoration-none">Sign up</a>
+                    </p>
+                    <p class="small text-muted">
+                        <a href="{% url 'password_reset' %}" class="text-decoration-none">Forgot password?</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
 {% endblock content %}

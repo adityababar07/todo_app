@@ -1,26 +1,120 @@
 {% extends 'base.html' %}
 
-{% block title %} {{ user.username }} {% endblock title %}
+{% block title %} {{ profile_user.username }} {% endblock title %}
 
 {% block content %}
 
-<div class="p-3">
-    <img class="profile" src="{{user.profile_image.url}}" >
-    <div class="ps-4">
-        <h4>
-            {{ user.username }}
-            <a class="btn btn-secondary" href="{% url 'profile_edit' user.pk %}">Edit Profile</a>
-            <!-- <br />
-            ({{ user.id }})<br /> -->
-        </h4>
-        {{ user.bio }}<br />
-        {{ user.standard }}
-        {{ user.division }}<br />
-        {{ user.house }}(house)<br />
-        {{ user.stream }}(stream)<br />
-        {{ user.school }}<br />
-        <hr>
+<div class="container pt-4">
+    <!-- Profile Header -->
+    <div class="row mb-5">
+        <!-- Profile Image -->
+        <div class="col-md-4 d-flex justify-content-center align-items-start">
+            <div class="profile-image-container">
+                {% if profile_user.profile_image %}
+                <img class="rounded-circle img-fluid border" src="{{ profile_user.profile_image }}"
+                    alt="{{ profile_user.username }}" style="width: 150px; height: 150px; object-fit: cover;">
+                {% else %}
+                <img class="rounded-circle img-fluid border" src="https://via.placeholder.com/150" alt="Default Profile"
+                    style="width: 150px; height: 150px; object-fit: cover;">
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Profile Info -->
+        <div class="col-md-8">
+            <div class="d-flex align-items-center mb-3">
+                <h2 class="fw-light mb-0 me-3">{{ profile_user.username }}</h2>
+                {% if request.user == profile_user %}
+                <a href="{% url 'profile_edit' profile_user.pk %}" class="btn btn-outline-secondary btn-sm fw-bold">Edit
+                    Profile</a>
+                <a href="#" class="ms-2 text-dark"><i class="fas fa-cog fa-lg"></i></a>
+                {% endif %}
+            </div>
+
+            <div class="d-flex mb-3">
+                <div class="me-4"><strong>{{ post_count }}</strong> posts</div>
+                <!-- Placeholders for followers/following as they don't exist in model yet -->
+                <div class="me-4"><strong>0</strong> followers</div>
+                <div class="me-4"><strong>0</strong> following</div>
+            </div>
+
+            <div class="profile-bio">
+                <div class="fw-bold">{{ profile_user.name }}</div>
+                {% if profile_user.bio and profile_user.bio != "None" %}
+                <div style="white-space: pre-line;">{{ profile_user.bio }}</div>
+                {% endif %}
+
+                <div class="text-muted mt-2 small">
+                    {% if profile_user.school and profile_user.school != "None" %}
+                    <div><i class="fas fa-university me-1"></i> {{ profile_user.school }}</div>
+                    {% endif %}
+                    {% if profile_user.stream and profile_user.stream != "None" %}
+                    <div><i class="fas fa-book-reader me-1"></i> {{ profile_user.stream }}</div>
+                    {% endif %}
+                    {% if profile_user.house and profile_user.house != "None" %}
+                    <div><i class="fas fa-home me-1"></i> {{ profile_user.house }}</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Divider / Tabs -->
+    <div class="border-top mb-4">
+        <div class="d-flex justify-content-center">
+            <div class="border-top border-dark pt-2 px-2" style="margin-top: -1px;">
+                <span class="small fw-bold text-uppercase"><i class="fas fa-th me-1"></i> Posts</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Posts Grid -->
+    <div class="row g-4">
+        {% for post in user_posts %}
+        <div class="col-4">
+            <a href="{% url 'todo_detail' post.pk %}" class="text-decoration-none">
+                <div class="ratio ratio-1x1 bg-light border position-relative profile-post-card">
+                    <div class="d-flex flex-column justify-content-center align-items-center p-3 text-center h-100">
+                        <span class="badge badge-{{ post.category|lower }} mb-2">{{ post.category }}</span>
+                        <h6 class="text-dark text-truncate w-100 mb-0">{{ post.title }}</h6>
+                        <div class="post-overlay">
+                            <div class="text-white">
+                                <i class="fas fa-heart me-2"></i> 0
+                                <span class="ms-3"><i class="fas fa-comment me-2"></i> {{ post.comments.count }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+        {% empty %}
+        <div class="col-12 text-center py-5">
+            <div class="display-1 text-muted mb-3"><i class="fas fa-camera"></i></div>
+            <h3>No Posts Yet</h3>
+        </div>
+        {% endfor %}
     </div>
 </div>
+
+<style>
+    /* Instagram-like hover effect */
+    .profile-post-card .post-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.3);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        transition: opacity 0.2s;
+    }
+
+    .profile-post-card:hover .post-overlay {
+        opacity: 1;
+    }
+</style>
 
 {% endblock %}

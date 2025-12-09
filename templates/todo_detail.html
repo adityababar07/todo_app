@@ -1,23 +1,35 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="px-5">
-    <div class="article-entry" id="post_detail_card">
-        <div class='card-header'>
-            <h2>{{ todo.title }}</h2>
-            <p>-by {{ todo.author }}| {{ todo.date }}</p>
-            <!-- <hr> -->
-        </div>
-        <div class="card-body">
-            <p>
-                {{ todo.body }}</p>
-            <p>
-                <a href="{% url 'todo_edit' todo.pk %}">Edit</a> | <a href="{% url 'todo_delete' todo.pk %}">Delete</a>
-            </p>
-            <p>Back to <a href="{% url 'todo_list' %}">All To Do's </a>.</p>
-        </div>
-        <div class="card-footer">
-
+<div class="container pt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class='card-header bg-light'>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h2 class="text-dark">{{ todo.title }}</h2>
+                        <span class="badge badge-{{ todo.category|lower }}">{{ todo.category }}</span>
+                    </div>
+                    <p class="text-muted mb-0">-by {{ todo.author }} | {{ todo.date }}</p>
+                </div>
+                <div class="card-body">
+                    <p class="card-text text-dark" style="white-space: pre-wrap;">{{ todo.body }}</p>
+                    <div class="mt-4">
+                        {% if user.id == todo.author_id %}
+                        <a href="{% url 'todo_edit' todo.pk %}" class="btn btn-sm btn-outline-primary me-2">Edit</a>
+                        <a href="{% url 'todo_delete' todo.pk %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                        {% endif %}
+                    </div>
+                    <div class="mt-3">
+                        <a href="{% url 'todo_list' %}" class="text-decoration-none text-primary">&larr; Back to
+                            Knowledge Feed</a>
+                    </div>
+                </div>
+                <div class="card-footer text-muted bg-light">
+                    <!-- Comments section could go here -->
+                </div>
+            </div>
         </div>
     </div>
-    {% endblock content %}
+</div>
+{% endblock content %}

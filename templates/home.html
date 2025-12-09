@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 
+
 {% block content %}
-<div class="container" style="margin-top: 20px;">
+<div class="container" style="margin-top: 0px;">
     {% if user.is_authenticated %}
     <div class="row">
         <!-- Left Column: Feed (Posts) -->
@@ -14,52 +15,74 @@
 
             <!-- Posts Loop -->
             {% for todo in feed_posts %}
-            <div class="card mb-4">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <div class="d-flex align-items-center">
-                        <div class="rounded-circle overflow-hidden me-2" style="width: 40px; height: 40px;">
-                            <img src="{{ todo.author.profile_image.url }}" alt="{{ todo.author.username }}"
-                                style="width: 100%; height: 100%; object-fit: cover;">
+            <!-- Instagram-Style Post Card -->
+            <div class="card mb-4 border rounded-3 bg-white">
+                <!-- Header -->
+                <div class="d-flex justify-content-between align-items-center p-3">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="rounded-circle overflow-hidden border" style="width: 32px; height: 32px;">
+                            <img src="{% if todo.author.profile_image %}{{ todo.author.profile_image }}{% else %}https://ui-avatars.com/api/?name={{ todo.author.username }}&background=random{% endif %}"
+                                alt="{{ todo.author.username }}" style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
-                        <div>
-                            <span class="fw-bold d-block text-dark">{{ todo.author.username }}</span>
-                            <small class="text-muted" style="font-size: 0.8rem;">{{ todo.date }}</small>
-                        </div>
+                        <span class="fw-bold small text-dark">{{ todo.author.username }}</span>
+                        <span class="text-muted small">• {{ todo.date|timesince }}</span>
                     </div>
                     <div>
-                        <!-- Category Badge -->
-                        {% if todo.category == 'Knowledge' %}
-                        <span class="badge-knowledge">{{ todo.category }}</span>
-                        {% elif todo.category == 'Idea' %}
-                        <span class="badge-idea">{{ todo.category }}</span>
-                        {% elif todo.category == 'Question' %}
-                        <span class="badge-question">{{ todo.category }}</span>
-                        {% endif %}
+                        <a href="#" class="text-dark"><i class="fas fa-ellipsis-h"></i></a>
+                    </div>
+                </div>
 
-                        {% if todo.author == user %}
-                        <a href="{% url 'todo_edit' todo.pk %}" class="text-muted ms-2"><i class="fas fa-edit"></i></a>
-                        <a href="{% url 'todo_delete' todo.pk %}" class="text-danger ms-2"><i
-                                class="fas fa-trash-alt"></i></a>
-                        {% endif %}
+                <!-- Content (Simulating Image with Text) -->
+                <div class="bg-light d-flex align-items-center justify-content-center border-top border-bottom"
+                    style="min-height: 350px; background: linear-gradient(45deg, #f3f4f6, #fff);">
+                    <div class="p-4 text-center" style="max-width: 80%;">
+                        <span class="badge badge-{{ todo.category|lower }} mb-3">{{ todo.category }}</span>
+                        <h4 class="fw-bold mb-3">{{ todo.title }}</h4>
+                        <p class="lead" style="font-size: 1.1rem;">{{ todo.body }}</p>
                     </div>
                 </div>
-                <!-- Post Body -->
-                <div class="card-body">
-                    <h5 class="card-title fw-bold mb-3">{{ todo.title }}</h5>
-                    <p class="card-text" style="font-size: 1.05rem; line-height: 1.6;">{{ todo.body }}</p>
-                </div>
-                <!-- Post Footer (Interactions) -->
-                <div class="card-footer bg-transparent">
-                    <div class="d-flex justify-content-between align-items-center">
+
+                <!-- Actions -->
+                <div class="p-3 pb-0">
+                    <div class="d-flex justify-content-between mb-3">
+                        <div class="d-flex gap-3">
+                            <a href="#" class="text-dark"><i class="far fa-heart fa-lg"></i></a>
+                            <a href="{% url 'todo_detail' todo.pk %}" class="text-dark"><i
+                                    class="far fa-comment fa-lg"></i></a>
+                            <a href="#" class="text-dark"><i class="far fa-paper-plane fa-lg"></i></a>
+                        </div>
                         <div>
-                            <a href="{% url 'todo_detail' todo.pk %}"
-                                class="btn btn-sm btn-outline-primary rounded-pill px-3">View Details</a>
-                        </div>
-                        <div class="text-muted small">
-                            <!-- Could add like/comment counts here -->
-                            <i class="far fa-comment"></i> Comment
+                            <a href="#" class="text-dark"><i class="far fa-bookmark fa-lg"></i></a>
                         </div>
                     </div>
+
+                    <!-- Likes Count (Dummy for now) -->
+                    <div class="fw-bold small mb-2">
+                        Liked by <strong>someone</strong> and <strong>others</strong>
+                    </div>
+
+                    <!-- Caption -->
+                    <div class="mb-2">
+                        <span class="fw-bold small me-1">{{ todo.author.username }}</span>
+                        <span class="small">{{ todo.body|truncatechars:80 }}</span>
+                    </div>
+
+                    <!-- Comments Link -->
+                    <a href="{% url 'todo_detail' todo.pk %}" class="text-muted small text-decoration-none">View all {{ todo.comments.count|default:"0" }} comments</a>
+
+                    <!-- Date -->
+                    <div class="text-muted small mt-1" style="font-size: 10px;">{{ todo.date|date:"F j"|upper }}</div>
+                </div>
+
+                <!-- Add Comment Input -->
+                <div class="border-top p-3 mt-3">
+                    <form class="d-flex align-items-center">
+                        <i class="far fa-smile fa-lg me-3 text-muted"></i>
+                        <input type="text" class="form-control border-0 shadow-none p-0 small"
+                            placeholder="Add a comment...">
+                        <button type="button"
+                            class="btn btn-link text-primary fw-bold text-decoration-none p-0 small ms-2">Post</button>
+                    </form>
                 </div>
             </div>
             {% empty %}
@@ -84,8 +107,8 @@
                     <div class="card-body d-flex align-items-center">
                         <div class="rounded-circle overflow-hidden me-3"
                             style="width: 56px; height: 56px; border: 2px solid var(--primary-color);">
-                            <img src="{{ user.profile_image.url }}" alt="{{ user.username }}"
-                                style="width: 100%; height: 100%; object-fit: cover;">
+                            <img src="{% if user.profile_image %}{{ user.profile_image }}{% else %}https://ui-avatars.com/api/?name={{ user.username }}&background=random{% endif %}"
+                                alt="{{ user.username }}" style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
                         <div>
                             <h6 class="fw-bold mb-0 text-dark">{{ user.username }}</h6>
@@ -110,7 +133,8 @@
                         {% for suggestion in suggestions %}
                         <div class="d-flex align-items-center mb-3">
                             <div class="rounded-circle overflow-hidden me-2" style="width: 32px; height: 32px;">
-                                <img src="{{ suggestion.profile_image.url }}" alt="{{ suggestion.username }}"
+                                <img src="{% if suggestion.profile_image %}{{ suggestion.profile_image }}{% else %}https://ui-avatars.com/api/?name={{ suggestion.username }}&background=random{% endif %}"
+                                    alt="{{ suggestion.username }}"
                                     style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div class="flex-grow-1">

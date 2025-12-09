@@ -3,58 +3,63 @@
 {% block content %}
 
 <div class="p-3 list-inline">
-    <div class="rounded-circle mb-2 list-inline-item">
-        <img src="{{ user.profile_image.url }}">
-    </div>
-    <div class="list-inline-item">
-        <form action="" method="POST">
-            {% csrf_token %}
-            <div class="mb-2"><input type="text" name="profile_image" value="{{ form.profile_image.value|default:'' }}"
-                    class="form-control" placeholder="Profile Image URL"></div>
-            <div class="mb-2"><input type="text" name="username" value="{{ form.username.value|default:'' }}"
-                    class="form-control" placeholder="Username"></div>
-            <div class="mb-2"><input type="text" name="name" value="{{ form.name.value|default:'' }}"
-                    class="form-control" placeholder="Full Name"></div>
-            <div class="mb-2"><input type="number" name="age" value="{{ form.age.value|default:'' }}"
-                    class="form-control" placeholder="Age"></div>
-            <div class="mb-2"><textarea name="bio" class="form-control" placeholder="Bio"
-                    rows="3">{{ form.bio.value|default:'' }}</textarea></div>
-            <div class="mb-2"><input type="email" name="email" value="{{ form.email.value|default:'' }}"
-                    class="form-control" placeholder="Email"></div>
-            <div class="mb-2"><input type="number" name="standard" value="{{ form.standard.value|default:'' }}"
-                    class="form-control" placeholder="Standard"></div>
-            <div class="mb-2"><input type="text" name="division" value="{{ form.division.value|default:'' }}"
-                    class="form-control" placeholder="Division"></div>
-            <div class="mb-2"><input type="text" name="house" value="{{ form.house.value|default:'' }}"
-                    class="form-control" placeholder="House"></div>
-            <div class="mb-2"><input type="text" name="stream" value="{{ form.stream.value|default:'' }}"
-                    class="form-control" placeholder="Stream"></div>
-            <div class="mb-2"><input type="text" name="school" value="{{ form.school.value|default:'' }}"
-                    class="form-control" placeholder="School"></div>
-            <input type="submit" value="Update">
-        </form>
-    </div>
+        <div class="rounded-circle mb-2 list-inline-item">
+                <img src="{% if user.profile_image %}{{ user.profile_image }}{% else %}https://ui-avatars.com/api/?name={{ user.username }}&background=random{% endif %}"
+                        style="width: 100px; height: 100px; object-fit: cover;">
+        </div>
+        <div class="list-inline-item">
+                <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="mb-2"><input type="text" name="profile_image"
+                                        value="{{ form.profile_image.value|default:'' }}" class="form-control"
+                                        placeholder="Profile Image URL"></div>
+                        <div class="mb-2"><input type="text" name="username"
+                                        value="{{ form.username.value|default:'' }}" class="form-control"
+                                        placeholder="Username"></div>
+                        <div class="mb-2"><input type="text" name="name" value="{{ form.name.value|default:'' }}"
+                                        class="form-control" placeholder="Full Name"></div>
+                        <div class="mb-2"><input type="number" name="age" value="{{ form.age.value|default:'' }}"
+                                        class="form-control" placeholder="Age"></div>
+                        <div class="mb-2"><textarea name="bio" class="form-control" placeholder="Bio"
+                                        rows="3">{{ form.bio.value|default:'' }}</textarea></div>
+                        <div class="mb-2"><input type="email" name="email" value="{{ form.email.value|default:'' }}"
+                                        class="form-control" placeholder="Email"></div>
+                        <div class="mb-2"><input type="number" name="standard"
+                                        value="{{ form.standard.value|default:'' }}" class="form-control"
+                                        placeholder="Standard"></div>
+                        <div class="mb-2"><input type="text" name="division"
+                                        value="{{ form.division.value|default:'' }}" class="form-control"
+                                        placeholder="Division"></div>
+                        <div class="mb-2"><input type="text" name="house" value="{{ form.house.value|default:'' }}"
+                                        class="form-control" placeholder="House"></div>
+                        <div class="mb-2"><input type="text" name="stream" value="{{ form.stream.value|default:'' }}"
+                                        class="form-control" placeholder="Stream"></div>
+                        <div class="mb-2"><input type="text" name="school" value="{{ form.school.value|default:'' }}"
+                                        class="form-control" placeholder="School"></div>
+                        <input type="submit" value="Update">
+                </form>
+        </div>
 </div>
 
 {% endblock %}
 
 {% block extra_css %}
 <style>
-    /* Hide labels for Instagram style */
-    form label {
-        display: none;
-    }
+        /* Hide labels for Instagram style */
+        form label {
+                display: none;
+        }
 
-    /* Add some spacing for the inputs since labels are gone */
-    form input,
-    form textarea,
-    form select {
-        margin-bottom: 10px;
-        width: 100%;
-        /* Ensure full width */
-        padding: 8px;
-        border: 1px solid #dbdbdb;
-        border-radius: 3px;
-    }
+        /* Add some spacing for the inputs since labels are gone */
+        form input,
+        form textarea,
+        form select {
+                margin-bottom: 10px;
+                width: 100%;
+                /* Ensure full width */
+                padding: 8px;
+                border: 1px solid #dbdbdb;
+                border-radius: 3px;
+        }
 </style>
 {% endblock %}

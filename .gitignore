@@ -7,3 +7,5 @@ db.sqlite3
 venv/
 env/
 staticfiles/
+markdowns/
+report.md
